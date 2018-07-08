@@ -1,0 +1,10 @@
+*.py[cod]
+*.coverage
+settings_local.py
+/static/
+/media/
+.idea
+__pycache__
+.DS_Store
+venv
+env
