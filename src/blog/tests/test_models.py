@@ -1,7 +1,7 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 
 from blog import models
+from .mixins import CreateMixin
 
 
 class _AbstractPublicationModelTest(TestCase):
@@ -36,24 +36,7 @@ class TestTagModel(_AbstractPublicationModelTest):
     model = models.Tag
 
 
-class TestModels(TestCase):
-    def _create_objects(self):
-        self.user = get_user_model().objects.create_user(username='user', password='qwerty')
-        self.category = models.Category.objects.create(title='category')
-        self.article = models.Article.objects.create(
-            title='article',
-            author=self.user,
-            category=self.category,
-            content='Lorem ipsum dolor sin amet...'
-        )
-        self.tag = models.Tag.objects.create(title='tag')
-
-        self.article.tags.add(self.tag)
-
-    def _remove_objects(self):
-        for model in [get_user_model(), models.Category, models.Article, models.Tag]:
-            model.objects.all().delete()
-
+class TestModels(TestCase, CreateMixin):
     def test_cascade_category(self):
         self._create_objects()
 
